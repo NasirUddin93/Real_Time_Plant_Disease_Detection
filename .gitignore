@@ -1,0 +1,143 @@
+# ==============================================================================
+# Git Ignore Configuration for Real-Time Plant Disease Detection
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# Byte-compiled / optimized / DLL files
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# ------------------------------------------------------------------------------
+# Virtual Environments & Package Managers
+# ------------------------------------------------------------------------------
+.venv/
+venv/
+ENV/
+env/
+env.bak/
+venv.bak/
+bin/
+include/
+lib/
+lib64/
+share/
+pyvenv.cfg
+
+# ------------------------------------------------------------------------------
+# Distribution / Packaging
+# ------------------------------------------------------------------------------
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+parts/
+sdist/
+var/
+wheels/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# ------------------------------------------------------------------------------
+# IDEs, Editors & Operating System Files
+# ------------------------------------------------------------------------------
+.idea/
+.vscode/
+*.sublime-project
+*.sublime-workspace
+*.swp
+*.swo
+*~
+.directory
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ------------------------------------------------------------------------------
+# Jupyter Notebooks & Caches
+# ------------------------------------------------------------------------------
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+profile_default/
+ipython_config.py
+
+# ------------------------------------------------------------------------------
+# Unit Tests & Coverage
+# ------------------------------------------------------------------------------
+.tox/
+.nox/
+.coverage
+.coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+.hypothesis/
+.pytest_cache/
+cover/
+
+# ------------------------------------------------------------------------------
+# Machine Learning Checkpoints, Weights & Large Model Files
+# ------------------------------------------------------------------------------
+# Uncomment or adjust depending on whether you store large binaries via Git LFS
+*.pth
+*.pt
+*.ckpt
+*.weights
+*.h5
+*.keras
+*.onnx
+*.tflite
+*_edgetpu.tflite
+*.pb
+*.caffemodel
+
+# ------------------------------------------------------------------------------
+# Datasets & Large Archives
+# ------------------------------------------------------------------------------
+# Large physical datasets (e.g. PlantVillage, field RAW photos) should not be committed
+data/raw/
+data/processed/
+datasets/
+dataset/
+*.tar
+*.tar.gz
+*.tgz
+*.zip
+*.7z
+*.rar
+
+# ------------------------------------------------------------------------------
+# Logs, Profiling & Experiment Tracking
+# ------------------------------------------------------------------------------
+logs/
+*.log
+runs/
+wandb/
+mlruns/
+lightning_logs/
+results/*.png
+results/*.jpg
+
+# ------------------------------------------------------------------------------
+# Temporary Files & Scratchpads
+# ------------------------------------------------------------------------------
+tmp/
+temp/
+scratch/
+*.tmp
+*.bak

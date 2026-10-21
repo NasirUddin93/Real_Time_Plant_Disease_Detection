@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EdgePlant AI | Lightweight Edge Deep Learning Framework for Plant Disease Detection</title>
+    <meta name="description" content="Ultra-lightweight real-time plant disease classification and Explainable AI framework for edge devices (Android, Raspberry Pi 4, Coral Edge TPU, ARM Cortex-M).">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="dark-theme">
+    <!-- Navigation / Top Header -->
+    <header class="app-header">
+        <div class="header-container">
+            <div class="brand-group">
+                <div class="brand-logo-glow">
+                    <svg class="brand-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L3 7v9c0 5 9 8 9 8s9-3 9-8V7l-9-5z"/>
+                        <path d="M12 22V12"/>
+                        <path d="M12 12c-2.5-3-5.5-2.5-7-1"/>
+                        <path d="M12 12c2.5-3 5.5-2.5 7-1"/>
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="brand-title">EdgePlant <span class="accent-text">AI</span></h1>
+                    <p class="brand-subtitle">City University CSE • Real-Time Lightweight Edge Framework</p>
+                </div>
+            </div>
+
+            <div class="header-badges">
+                <div class="status-badge live-pulse">
+                    <span class="pulse-dot"></span>
+                    <span>Edge TPU / ARM NEON Engine Active</span>
+                </div>
+                <div class="tier-pill" id="currentTierBadge">Tier 3: Coral Edge TPU (4 TOPS)</div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Workspace Grid -->
+    <main class="main-layout">
+        <!-- Sidebar Controls & Data Selection -->
+        <aside class="sidebar-panel glass-card">
+            <div class="panel-section">
+                <h2 class="section-title">1. Crop & Foliage Target</h2>
+                <div class="form-group">
+                    <label for="cropSelect" class="form-label">Selected Economic Crop</label>
+                    <select id="cropSelect" class="custom-select">
+                        <option value="Tomato">Tomato (Solanum lycopersicum)</option>
+                        <option value="Rice">Rice (Oryza sativa)</option>
+                        <option value="Apple">Apple (Malus domestica)</option>
+                        <option value="Potato">Potato (Solanum tuberosum)</option>
+                        <option value="Eggplant">Eggplant / Brinjal (Solanum melongena)</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="diseaseSelect" class="form-label">Symptom Condition / Pathogen</label>
+                    <select id="diseaseSelect" class="custom-select">
+                        <!-- Dynamically filled based on crop -->
+                    </select>
+                </div>
+
+                <div class="action-buttons-group">
+                    <button id="btnGenerateLeaf" class="btn btn-primary">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21.5 2v6h-6M21.34 15.57a10 10 0 1 1-.57-8.38l5.67-5.19"/></svg>
+                        Regenerate Foliage Sample
+                    </button>
+                    <label for="imageUploadInput" class="btn btn-outline" style="cursor: pointer; text-align: center;">
+                        <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg>
+                        Upload Leaf Image
+                        <input type="file" id="imageUploadInput" accept="image/*" style="display: none;">
+                    </label>
+                </div>
+            </div>
+
+            <!-- Environmental Perturbation Simulator (Phase 1) -->
+            <div class="panel-section">
+                <div class="section-header-flex">
+                    <h2 class="section-title">2. Field Perturbations</h2>
+                    <button id="btnResetPerturbations" class="btn-text">Reset</button>
+                </div>
+                <p class="section-desc">Simulate optical & environmental distortions from Savar/Khagan agricultural field testing.</p>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Solar Glare & Flare</span>
+                        <span class="slider-value" id="valGlare">0%</span>
+                    </div>
+                    <input type="range" id="sliderGlare" min="0" max="100" value="0" class="custom-range">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Canopy / Cloud Shadow</span>
+                        <span class="slider-value" id="valShadow">0%</span>
+                    </div>
+                    <input type="range" id="sliderShadow" min="0" max="100" value="0" class="custom-range">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Wind Motion Blur</span>
+                        <span class="slider-value" id="valBlur">0%</span>
+                    </div>
+                    <input type="range" id="sliderBlur" min="0" max="100" value="0" class="custom-range">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Leaf Occlusion / Cutout</span>
+                        <span class="slider-value" id="valOcclusion">0%</span>
+                    </div>
+                    <input type="range" id="sliderOcclusion" min="0" max="100" value="0" class="custom-range">
+                </div>
+
+                <div class="slider-control">
+                    <div class="slider-header">
+                        <span class="slider-label">Soil / Weed Clutter</span>
+                        <span class="slider-value" id="valClutter">0%</span>
+                    </div>
+                    <input type="range" id="sliderClutter" min="0" max="100" value="0" class="custom-range">
+                </div>
+            </div>
+
+            <!-- Hardware Deployment Tier (Phase 3) -->
+            <div class="panel-section">
+                <h2 class="section-title">3. Target Hardware Tier</h2>
+                <div class="tier-select-grid">
+                    <button class="tier-card" data-tier="tier1">
+                        <span class="tier-num">Tier 1</span>
+                        <span class="tier-name">Smartphone</span>
+                        <span class="tier-specs">ARM Cortex-A + NNAPI</span>
+                    </button>
+                    <button class="tier-card" data-tier="tier2">
+                        <span class="tier-num">Tier 2</span>
+                        <span class="tier-name">Raspberry Pi 4</span>
+                        <span class="tier-specs">ARM Cortex-A72 (CPU)</span>
+                    </button>
+                    <button class="tier-card active" data-tier="tier3">
+                        <span class="tier-num">Tier 3</span>
+                        <span class="tier-name">Coral Edge TPU</span>
+                        <span class="tier-specs">4 TOPS Coprocessor</span>
+                    </button>
+                    <button class="tier-card" data-tier="tier4">
+                        <span class="tier-num">Tier 4</span>
+                        <span class="tier-name">Cortex-M MCU</span>
+                        <span class="tier-specs">STM32H7 (480 MHz)</span>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Center Inspection & Visualization Canvas -->
+        <section class="viewport-panel">
+            <div class="viewport-card glass-card">
+                <div class="viewport-toolbar">
+                    <div class="viewport-title-group">
+                        <h2 class="viewport-heading">Real-Time Leaf Diagnostic & XAI Stream</h2>
+                        <span class="resolution-tag">224 x 224 px RGB</span>
+                    </div>
+                    <div class="xai-controls">
+                        <label class="toggle-control">
+                            <input type="checkbox" id="toggleGradCam" checked>
+                            <span class="toggle-slider"></span>
+                            <span class="toggle-text">Grad-CAM Overlay</span>
+                        </label>
+                        <div class="opacity-box">
+                            <span class="opacity-label">Opacity</span>
+                            <input type="range" id="camOpacity" min="10" max="90" value="55" class="custom-range-mini">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Canvas Display Container -->
+                <div class="canvas-wrapper">
+                    <canvas id="leafCanvas" width="480" height="480"></canvas>
+                    <canvas id="gradCamCanvas" width="480" height="480"></canvas>
+                    
+                    <div class="detection-overlay" id="detectionOverlay">
+                        <div class="bounding-box" id="symptomBox">
+                            <span class="box-tag" id="boxLabel">Pathogen Focus: 98.4%</span>
+                        </div>
+                    </div>
+
+                    <div class="canvas-hud">
+                        <div class="hud-item"><span class="hud-label">FPS:</span> <span id="hudFps" class="hud-val">172.4</span></div>
+                        <div class="hud-item"><span class="hud-label">Latency:</span> <span id="hudLatency" class="hud-val">5.8 ms</span></div>
+                        <div class="hud-item"><span class="hud-label">Power:</span> <span id="hudPower" class="hud-val">1.9 W</span></div>
+                    </div>
+                </div>
+
+                <!-- Model Selection Tabs -->
+                <div class="model-selection-tabs">
+                    <button class="model-tab" data-model="resnet50">
+                        <span class="model-type">Teacher Baseline</span>
+                        <span class="model-title">ResNet-50 (FP32)</span>
+                        <span class="model-tag">25.5M Params • 4.12 GF</span>
+                    </button>
+                    <button class="model-tab" data-model="mobilenetv3">
+                        <span class="model-type">Student 1</span>
+                        <span class="model-title">MobileNetV3 + CBAM</span>
+                        <span class="model-tag">0.91M Params • 0.08 GF</span>
+                    </button>
+                    <button class="model-tab" data-model="shufflenet">
+                        <span class="model-type">Student 2</span>
+                        <span class="model-title">ShuffleNetV2 + SE</span>
+                        <span class="model-tag">0.83M Params • 0.07 GF</span>
+                    </button>
+                    <button class="model-tab active" data-model="mobileplantvit">
+                        <span class="model-type">Proposed Architecture</span>
+                        <span class="model-title">MobilePlantViT (Hybrid)</span>
+                        <span class="model-tag">0.69M Params • 0.15 GF</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Diagnostics & Explainability Cards -->
+            <div class="diagnostic-grid">
+                <!-- Diagnostic Prediction Card -->
+                <div class="diag-card glass-card">
+                    <h3 class="card-title">Top-1 Diagnostic Output</h3>
+                    <div class="diag-hero">
+                        <div class="confidence-circle" id="confCircle">
+                            <svg viewBox="0 0 36 36" class="circular-chart">
+                                <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <path class="circle" id="confPath" stroke-dasharray="97, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"/>
+                                <text x="18" y="20.35" class="circle-text" id="confText">97%</text>
+                            </svg>
+                        </div>
+                        <div class="diag-details">
+                            <span class="diag-crop" id="diagCrop">Tomato</span>
+                            <h4 class="diag-name" id="diagName">Early Blight (Alternaria solani)</h4>
+                            <p class="diag-desc" id="diagDesc">Concentric dark rings and chlorotic yellow halos. Recommended: Copper fungicide spray and lower leaf pruning.</p>
+                        </div>
+                    </div>
+
+                    <!-- Top 3 Probabilities -->
+                    <div class="ranking-list" id="rankingList">
+                        <!-- Populated dynamically -->
+                    </div>
+                </div>
+
+                <!-- XAI Perturbation Stability Score Card -->
+                <div class="diag-card glass-card">
+                    <h3 class="card-title">Explainable AI: Perturbation Stability</h3>
+                    <p class="card-desc">Evaluates whether diagnostic heatmaps identify true fungal/bacterial symptoms rather than background artifacts.</p>
+
+                    <div class="xai-metric-box">
+                        <div class="xai-metric-item">
+                            <span class="xm-label">Original Salience Confidence</span>
+                            <span class="xm-val" id="xmOrigConf">97.2%</span>
+                        </div>
+                        <div class="xai-metric-item">
+                            <span class="xm-label">Masked Perturbation Confidence</span>
+                            <span class="xm-val text-warning" id="xmPertConf">31.4%</span>
+                        </div>
+                        <div class="xai-metric-item highlight">
+                            <span class="xm-label">Confidence Drop Rate (&Delta;PSS)</span>
+                            <span class="xm-val text-success" id="xmDropRate">-67.7%</span>
+                        </div>
+                    </div>
+
+                    <div class="fidelity-status-pill verified">
+                        <svg class="pill-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                        <span id="xaiFidelityMessage">High Pathogen Salience Fidelity Verified (Monotonic Drop)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Right Side: Hardware & Metrics Benchmark Dashboard -->
+        <aside class="sidebar-metrics glass-card">
+            <h2 class="section-title">Hardware Telemetry & Metrics</h2>
+            
+            <!-- Real-Time Hardware Meters -->
+            <div class="metric-meter-card">
+                <div class="meter-header">
+                    <span class="meter-title">Inference Latency</span>
+                    <span class="meter-val" id="telemetryLatency">5.8 ms</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill latency-fill" id="barLatency" style="width: 19%;"></div>
+                </div>
+                <div class="meter-footer">
+                    <span>Target: &le; 30 ms</span>
+                    <span class="status-pass" id="latencyStatus">PASS (95.1% margin)</span>
+                </div>
+            </div>
+
+            <div class="metric-meter-card">
+                <div class="meter-header">
+                    <span class="meter-title">Throughput (FPS)</span>
+                    <span class="meter-val" id="telemetryFps">172.4 FPS</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill fps-fill" id="barFps" style="width: 86%;"></div>
+                </div>
+                <div class="meter-footer">
+                    <span>Target: &ge; 25 FPS</span>
+                    <span class="status-pass" id="fpsStatus">REAL-TIME VIDEO PASS</span>
+                </div>
+            </div>
+
+            <div class="metric-meter-card">
+                <div class="meter-header">
+                    <span class="meter-title">Power Consumption</span>
+                    <span class="meter-val" id="telemetryPower">1.9 W</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill power-fill" id="barPower" style="width: 38%;"></div>
+                </div>
+                <div class="meter-footer">
+                    <span>Target: &le; 3.0 W</span>
+                    <span class="status-pass">ENERGY OPTIMAL</span>
+                </div>
+            </div>
+
+            <div class="metric-meter-card">
+                <div class="meter-header">
+                    <span class="meter-title">Energy Per Inference</span>
+                    <span class="meter-val" id="telemetryEnergy">11.0 mJ</span>
+                </div>
+                <div class="progress-bar-bg">
+                    <div class="progress-bar-fill energy-fill" id="barEnergy" style="width: 15%;"></div>
+                </div>
+                <div class="meter-footer">
+                    <span>Battery Longevity (5000mAh)</span>
+                    <span class="status-pass">~9.8 Hours Continuous</span>
+                </div>
+            </div>
+
+            <!-- Model Specifications Table -->
+            <div class="spec-table-box">
+                <h3 class="spec-heading">Model Specification Matrix</h3>
+                <table class="spec-table">
+                    <tr>
+                        <td>Parameters</td>
+                        <td id="specParams" class="text-accent">0.69 Million</td>
+                    </tr>
+                    <tr>
+                        <td>Computational Complexity</td>
+                        <td id="specFlops">0.15 GFLOPs</td>
+                    </tr>
+                    <tr>
+                        <td>INT8 Quantized Size</td>
+                        <td id="specSize">0.67 MB</td>
+                    </tr>
+                    <tr>
+                        <td>Working RAM (Peak RSS)</td>
+                        <td id="specRam">43.2 MB</td>
+                    </tr>
+                    <tr>
+                        <td>Edge Compilation Format</td>
+                        <td id="specFormat">_edgetpu.tflite</td>
+                    </tr>
+                    <tr>
+                        <td>Hardware Acceleration</td>
+                        <td id="specAccel">Coral Edge TPU ASIC</td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Quick Export / Download Action -->
+            <div class="export-box">
+                <button id="btnExportTelemetry" class="btn btn-outline-small">
+                    <svg class="btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4M7 10l5 5 5-5M12 15V3"/></svg>
+                    Download Hardware Profiling Log (.JSON)
+                </button>
+            </div>
+        </aside>
+    </main>
+
+    <!-- Scripts -->
+    <script src="js/app.js"></script>
+</body>
+</html>

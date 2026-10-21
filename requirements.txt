@@ -1,0 +1,17 @@
+# Core Deep Learning Framework
+torch>=2.0.0
+torchvision>=0.15.0
+
+# Numerical Computation & Image Processing
+numpy>=1.24.0
+Pillow>=9.5.0
+
+# Hardware Profiling & System Telemetry
+psutil>=5.9.0
+
+# Model Export & Edge Deployment Runtimes
+onnx>=1.14.0
+onnxruntime>=1.15.0
+
+# Optional visualization & analysis (recommended for notebook exploration)
+matplotlib>=3.7.0
