@@ -279,7 +279,6 @@ Faculty of Science and Engineering
 
 ### Research Investigators
 - **Sheikh Saad** — *Student ID: 0272320005101281*
-- **Sumaiya Khatun** — *Student ID: 0272320005101175*
 - **Sabiha Akon Maria** — *Student ID: 0272310005101027*
 - **Md Al Mamun** — *Student ID: 0272320005101117*
 
